@@ -2,15 +2,12 @@ package com.karenspindler.qwirkle;
 
 import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.mvc.View;
-//import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 public class Qwirkle extends View {
 
@@ -44,24 +41,8 @@ public class Qwirkle extends View {
         VBox welcomeArea = new VBox(20);
         welcomeArea.setAlignment(Pos.CENTER);
         
-        HBox titleArea = new HBox(20);
-        titleArea.setAlignment(Pos.CENTER);
+        welcomeArea.getChildren().add(new ImageView(QwirkleApplication.class.getResource("/images/Qwirkle_instructions.jpg").toString()));
 
-        Text title = new Text("Welcome to Qwirkle!");
-        title.setFont(Font.font(20));
-        titleArea.getChildren().add(title);
-        
-        titleArea.getChildren().add(new ImageView(QwirkleApplication.class.getResource("/images/Qwirkle_game.jpg").toString()));
-        
-        welcomeArea.getChildren().add(titleArea);
-        
-        Text instructions = new Text("Create rows and columns by dragging tiles with the same symbol or colour.\n\n"
-                + "Click the button to signal the end of your turn.\n\n"
-                + "If you wish to swap out your tiles, click the tiles you wish to replace and click the button.\nYour turn will end and the tiles will be replaced.\n\n"
-                + "How many players?");
-        instructions.setFont(Font.font(20));
-        welcomeArea.getChildren().add(instructions);
-        
         HBox buttonArea = new HBox (20);
         buttonArea.setAlignment(Pos.CENTER);
         

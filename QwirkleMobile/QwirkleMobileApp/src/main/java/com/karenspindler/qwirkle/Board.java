@@ -1,22 +1,26 @@
 package com.karenspindler.qwirkle;
 
+import com.gluonhq.charm.down.Services;
+import com.gluonhq.charm.down.plugins.DisplayService;
+
+import javafx.geometry.Dimension2D;
 import javafx.geometry.Pos;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.GridPane;
 
 public class Board extends GridPane {
 
-    //my computer
-//    public static final int NUM_COLUMNS = 32;
-//    public static final int NUM_ROWS = 15;
+    //dimensions of the play board
+    public static int NUM_COLUMNS;
+    public static int NUM_ROWS;
     
 //    //small android tablet
 //    public static final int NUM_COLUMNS = 28;
 //    public static final int NUM_ROWS = 17;
     
-    //kids android tablet
-    public static final int NUM_COLUMNS = 30;
-    public static final int NUM_ROWS = 16;
+//    //kids android tablet
+//    public static final int NUM_COLUMNS = 30;
+//    public static final int NUM_ROWS = 16;
 
     
     public static final double GAP = 2;
@@ -38,6 +42,17 @@ public class Board extends GridPane {
         setAlignment(Pos.CENTER);
         setHgap(GAP);
         setVgap(GAP);
+        
+        //determine the size of the board, based on the size of the device
+        Services.get(DisplayService.class).ifPresent(service -> {
+            Dimension2D resolution = service.getScreenResolution();
+
+            float scale = service.getScreenScale();
+            NUM_COLUMNS =  (int) (resolution.getWidth() / (Tile.TILE_SIZE + GAP) / scale - 1);
+            NUM_ROWS =  (int) (resolution.getHeight() / (Tile.TILE_SIZE + GAP) / scale - 3);
+
+        });
+        
         // create the grid of squares
         squares = new PlaceHolder[NUM_ROWS][NUM_COLUMNS];
 
