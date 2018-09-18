@@ -3,4 +3,4 @@ os: windows
 
 jdk: oraclejdk8
 
-script: ./QwirkleMobile/gradlew build.gradle 
+script: ./QwirkleMobile/gradlew ./QwirkleMobile/QwirkleMobileApp/build
