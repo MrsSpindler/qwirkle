@@ -1,6 +1,0 @@
-language: java
-os: windows
-
-jdk: oraclejdk8
-
-script: ./QwirkleMobile/gradlew ./QwirkleMobile/QwirkleMobileApp/build

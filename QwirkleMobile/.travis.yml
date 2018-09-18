@@ -1,0 +1,6 @@
+language: java
+os: windows
+
+jdk: oraclejdk8
+
+script: ./gradlew build
