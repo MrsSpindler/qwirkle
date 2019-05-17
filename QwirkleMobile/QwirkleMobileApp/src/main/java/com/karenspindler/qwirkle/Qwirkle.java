@@ -8,41 +8,60 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 public class Qwirkle extends View {
 
-    Board board;
-    Bag bag;
+    private Board board;
+    private Bag bag;
 
-    Player[] players;
-    int activePlayer = 0;
+    private Player[] players;
+    private int activePlayer = 0;
 
-    VBox root;
+    private VBox root;
 
     public static boolean ONE_PLAYER_MODE;
 
     public Qwirkle() {
         super();
         
-        newGame();
+        prepareNewGame();
         
         root = new VBox();
         root.setAlignment(Pos.CENTER);
         
         setCenter(root);
         
-        welcomeScreen();
+        showWelcomeScreen();
     }
 
-    public void welcomeScreen() {
+    public void showWelcomeScreen() {
 
+        //TODO: do I need these strings?
         final String P1 = "1 player ", P2 = "2 players", P3 = "3 players", P4 = "4 players";
 
         VBox welcomeArea = new VBox(20);
         welcomeArea.setAlignment(Pos.CENTER);
         
-        welcomeArea.getChildren().add(new ImageView(QwirkleApplication.class.getResource("/images/Qwirkle_instructions.jpg").toString()));
+        HBox titleArea = new HBox(20);
+        titleArea.setAlignment(Pos.CENTER);
 
+        Text title = new Text("Welcome to Qwirkle!");
+        title.setFont(Font.font(20));
+        titleArea.getChildren().add(title);
+        
+        titleArea.getChildren().add(new ImageView(Game.class.getResource("/images/Qwirkle_game.jpg").toString()));
+        
+        welcomeArea.getChildren().add(titleArea);
+        
+        Text instructions = new Text("Create rows and columns by dragging tiles with the same symbol or colour.\n\n"
+                + "Click the button to signal the end of your turn.\n\n"
+                + "If you wish to swap out your tiles, click the tiles you wish to replace and click the button.\nYour turn will end and the tiles will be replaced.\n\n"
+                + "How many players?");
+        instructions.setFont(Font.font(20));
+        welcomeArea.getChildren().add(instructions);
+        
         HBox buttonArea = new HBox (20);
         buttonArea.setAlignment(Pos.CENTER);
         
@@ -67,17 +86,19 @@ public class Qwirkle extends View {
         root.getChildren().add(welcomeArea);        
     }
     
-    private void newGame() {
+    private void prepareNewGame() {
         bag = new Bag();
         board = new Board();
     }
 
     private void beginGame(int numPlayers) {
 
+        //remove the welcome screen to prepare for the board placement
         root.getChildren().clear();
 
         ONE_PLAYER_MODE = (numPlayers == 1) ? true : false;
 
+        
         HBox controls = new HBox();
         controls.setAlignment(Pos.CENTER);
         controls.setSpacing(15);
@@ -87,18 +108,7 @@ public class Qwirkle extends View {
         String buttonText = ONE_PLAYER_MODE ? "End Turn" : "Next Player";
         Button btnSwitchPlayer = new Button(buttonText);
 
-        btnSwitchPlayer.setOnAction(event -> {
-
-            // end the turn of the current player
-            players[activePlayer].finishTurn();
-
-            // increment and restart at 0 if needed
-            activePlayer++;
-            activePlayer %= numPlayers;
-
-            // begin the next players turn
-            players[activePlayer].beginTurn();
-        });
+        btnSwitchPlayer.setOnAction(event -> changeTurn());
 
         controls.getChildren().add(btnSwitchPlayer);
 
@@ -107,7 +117,8 @@ public class Qwirkle extends View {
         HBox playerArea = new HBox();
         playerArea.setAlignment(Pos.CENTER);
         playerArea.setSpacing(5);
-
+        
+        //Create array of requested number of players
         players = new Player[numPlayers];
 
         for (int i = 0; i < players.length; i++) {
@@ -119,8 +130,21 @@ public class Qwirkle extends View {
 
         root.getChildren().add(board);
 
+        //Start the game!!!
         players[0].beginTurn();
 
+    }
+
+    private void changeTurn() {
+        // end the turn of the current player
+        players[activePlayer].finishTurn();
+
+        // increment and restart at 0 if needed
+        activePlayer++;
+        activePlayer %= players.length;
+
+        // begin the next players turn
+        players[activePlayer].beginTurn();
     }
     
     @Override

@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
         <key>CFBundleIdentifier</key>
-        <string>com.karenspindler.qwirkle.QwirkleApplication</string>
+        <string>com.karenspindler.qwirkle.Game</string>
         <key>CFBundleVersion</key>
         <string>1.0</string>
         <key>CFBundleExecutable</key>

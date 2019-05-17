@@ -53,8 +53,7 @@ public class Tile extends ImageView {
     }
 
     private String getImageName() {
-        
-        return QwirkleApplication.class.getResource("/images/" + colour + shape + ".png").toString();
+        return Game.class.getResource("/images/" + colour + shape + ".png").toString();
     }
 
     public boolean isBlank() {
@@ -62,14 +61,16 @@ public class Tile extends ImageView {
     }
 
     public boolean matchesNeighbour(Tile neighbour) {
-        if (neighbour != null) return neighbour.getShape() == shape ^ neighbour.getColour() == colour;
+        if (neighbour == null) return true;
 
-        return true;
+        return neighbour.getShape() == shape ^ neighbour.getColour() == colour;
     }
 
     public boolean equals(Tile t) {
-        if (t != null) return t.getShape() == shape && t.getColour() == colour;
-        else return false;
+        if (t == null) return false;
+
+        return t.getShape() == shape && t.getColour() == colour;
+
     }
 
 }

@@ -8,10 +8,12 @@ import javafx.scene.text.Text;
 
 public class Bag extends Text {
 
-    public static int MAX_TILES;
-    public static final char[] SHAPES = { Tile.CIRCLE, Tile.HEART, Tile.DIAMOND, Tile.STAR, Tile.TRIANGLE,
+    //can only have 6 of any one type of tile
+    public static int MAX_TILES = 6;
+    
+    private static final char[] SHAPES = { Tile.CIRCLE, Tile.HEART, Tile.DIAMOND, Tile.STAR, Tile.TRIANGLE,
             Tile.PENTAGON };
-    public static final char[] COLOURS = { Tile.RED, Tile.GREEN, Tile.ORANGE, Tile.VIOLET, Tile.BLUE, Tile.YELLOW };
+    private static final char[] COLOURS = { Tile.RED, Tile.GREEN, Tile.ORANGE, Tile.VIOLET, Tile.BLUE, Tile.YELLOW };
 
     private int[][] tileCount;
     private int tilesRemaining;
@@ -25,7 +27,7 @@ public class Bag extends Text {
         tileCount = new int[Tile.NUM_FEATURES][Tile.NUM_FEATURES];
         tilesRemaining = Tile.NUM_FEATURES * Tile.NUM_FEATURES * MAX_TILES;
 
-        setFont(Font.font(15));
+        setFont(Font.font(30));
         setText("Tiles Remaining: " + tilesRemaining);
     }
 
@@ -36,6 +38,7 @@ public class Bag extends Text {
         Tile tile;
 
         if (tilesRemaining <= 0) {
+            //run out of tiles in the bag; show user a blank tile
             tile = new Tile();
         } else {
             // pick a random colour and shape for the tile
@@ -62,14 +65,14 @@ public class Bag extends Text {
         // can't exchange if there are no tiles left in the bag
         if (!incoming.isBlank()) {
             // add old tile back in
-            tileCount[getIndex(incoming.getColour())][getIndex(incoming.getShape())]--;
+            tileCount[getFeatureIndex(incoming.getColour())][getFeatureIndex(incoming.getShape())]--;
             tilesRemaining++;
             setText("Tiles Remaining: " + tilesRemaining);
         }
 
     }
 
-    private int getIndex(char feature) {
+    private int getFeatureIndex(char feature) {
         int index = -1;
 
         for (int i = 0; i < COLOURS.length; i++)

@@ -22,7 +22,6 @@ public class Board extends GridPane {
 //    public static final int NUM_COLUMNS = 30;
 //    public static final int NUM_ROWS = 16;
 
-    
     public static final double GAP = 2;
 
     static final int MAX_LINE = 6;
@@ -62,19 +61,19 @@ public class Board extends GridPane {
 
                 tileHolder.setOnMouseDragEntered(event -> {
                     Tile tileInPlay = (Tile) event.getGestureSource();
-                    if (FIRST_TURN || validPlacement(tileInPlay, tileHolder)) tileHolder.setEffect(new DropShadow());
+                    if (FIRST_TURN || isValidPlacement(tileInPlay, tileHolder)) tileHolder.setEffect(new DropShadow());
 
                 });
 
                 tileHolder.setOnMouseDragReleased(event -> {
                     Tile tileInPlay = (Tile) event.getGestureSource();
-                    if (FIRST_TURN || validPlacement(tileInPlay, tileHolder)) {
+                    if (FIRST_TURN || isValidPlacement(tileInPlay, tileHolder)) {
 
                         // remove from player
                         Player player = (Player) tileInPlay.getParent();
                         player.playTile(tileInPlay);
 
-                        // place on the board - new a new object to ensure parent is null
+                        // place on the board - need a new object to ensure parent is null
                         Tile newTile = new Tile(tileInPlay.getColour(), tileInPlay.getShape());
                         tileHolder.placeTile(newTile);
 
@@ -102,7 +101,7 @@ public class Board extends GridPane {
         squares[row][col].placeTile(tile);
     }
 
-    public Tile getTile(int row, int column) {
+    private Tile getTile(int row, int column) {
         // check that request is within the correct range
         if (row >= 0 && row < NUM_ROWS && column >= 0 && column < NUM_COLUMNS) return squares[row][column].getTile();
 
@@ -110,7 +109,7 @@ public class Board extends GridPane {
         return null;
     }
 
-    public boolean validPlacement(Tile tileToBePlaced, PlaceHolder tileHolder) {
+    private boolean isValidPlacement(Tile tileToBePlaced, PlaceHolder tileHolder) {
 
         // get the location on the board of the tileholder that is being considered
         int row = tileHolder.getRow();

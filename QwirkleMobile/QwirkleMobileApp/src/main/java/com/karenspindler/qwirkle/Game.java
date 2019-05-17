@@ -9,14 +9,15 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class QwirkleApplication extends MobileApplication {
+public class Game extends MobileApplication {
 
     @Override
     public void init() {
+        
         addViewFactory(MobileApplication.SPLASH_VIEW, () -> {
             return new SplashView(HOME_VIEW, 
-                         new ImageView(QwirkleApplication.class.getResource("/images/Qwirkle_splash.jpg").toString()), 
-                         Duration.seconds(3));
+                         new ImageView(Game.class.getResource("/images/Qwirkle_splash.jpg").toString()), 
+                         Duration.seconds(5));
         });
         
         addViewFactory(HOME_VIEW, Qwirkle::new);
@@ -27,7 +28,8 @@ public class QwirkleApplication extends MobileApplication {
     public void postInit(Scene scene) {
         Swatch.PURPLE.assignTo(scene);
 
-        ((Stage) scene.getWindow()).getIcons().add(new Image(QwirkleApplication.class.getResourceAsStream("/images/icon.jpg")));
+        ((Stage) scene.getWindow()).getIcons().add(new Image(Game.class.getResourceAsStream("/images/icon.jpg")));
+        ((Stage) scene.getWindow()).setMaximized(true);
 
         
     }
