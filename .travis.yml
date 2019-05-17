@@ -1,8 +1,0 @@
-language: java
-os: windows
-
-jdk: oraclejdk8
-
-before_script: chmod +x ./QwirkleMobile/gradlew
-
-script: ./QwirkleMobile/gradlew build
